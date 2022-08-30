@@ -1,0 +1,253 @@
+Linux command
+ Whoami- to print the current user name logged into the terminal session
+Man - manual instruction or it tell us the information about all other commands
+“ man <command>”
+Clear - used to clear the previous commands in terminal
+-T: indicates the type of terminal (unnecessary already default taken)
+-V : reports the version of ncurses which was used in this program and exits. Option are as follows:
+-x : mainly used option , clears the terminal and takes you to the top  but if you scrollback the terminal you can see older commands
+Pwd - Print Working Directory . whenever you feel lost in the filesystem call pwd It prints the current folder path    
+Ls- List of folders or files in the filesystem and if you add a name or path it wil print that folder contents (“ ls /bin “)
+-l  : use long listing format( owner, type ,file name,modification time etc.. all details will be printed along with the file or folder names
+-a or --all : do not  ignore the file  or folder name starting with the symbol ” . “ 
+We can also combine options eg: ~$ ls -a -l  or ls -al we get all the information and doesn't ignore  starting with . symbol  
+Cd : Change Directory you can specify the entire path name or just the folder name to move on to that folder . Also we can use  ..  special path to indicate the parent folder you can go back .
+Eg:    
+Cd Desktop/ 
+Cd ../../../.. To go back
+Absolute path to go to desktop : cd home/anisha/desktop instead of this use :
+ cd~/Desktop/ will take u to desktop wherever you are
+Cd / takes you the root directory
+There is no man page for cd so we use “ help cd “
+Mkdir: (Make Directory ) Creates folder [ mkdir fruits], 
+you can also create multiple folders using this  [ mkdir cats dogs ]
+Can also create multiple nested folders by adding “ -p ” [ mkdir -p fruits/apple] it shows no error if existing already
+If you have to create in home folder and currently u are somewhere else use shortcut [mkdir ~ bike ] created in home directory
+Touch- create an empty file using this and if the file already exists it opens the file in write mode , and the timestamp of the file is updated [ touch ellore ]
+Rmdir: Remove directory path you can delete a folder using rmdir
+You can also delete multiple folders at once [ rmdir fruits cars]
+Note: the folder you delete must  be empty it shows error 
+Rm : Remove files or directories which are not empty [ rm fruits ]
+We can also remove multiple file or directories [rm carrot dog cat]
+“ -v”  verbose  It tells what is happening in each step[ rm -v carrot cat ] gives feedback that “ removed cat “ ,”removed carrot”
+ -r ,-R, - - recursive : removes the directories and contents recursively 
+-i  : interactive prompt or asks us whether we want to delete the file or not y/n               [ rm -ri zoo/ ]
+Open : Open a file outside of the terminal [ xdg-open ] we can install it 
+Mv : Move or rename files , specify the old path or name and the new one  [ mv pear new_pear ] 
+Use -v for the feedback and know whats happening 
+[mv journal.txt  STUFF/ ] here stuff is the destination folder journal is moved to stuff folder
+Cp : copy file or even folders [ cp filenametocopy destinationforthecopy  (if it is in the same folder just mention then new name for the copy)]
+-r, -R, - - recursive : copy the directories recursively
+Head  : Output the first part of the file by default 10 lines will be printed if we need more lines to be printed we can specify it [ head song.txt ]
+-n :prints the  specified  number of  lines [ head song.txt -n 100 ]
+
+
+Tail : last 10 lines will  be printed [tail song.txt ]
+-n : [tail song.txt -n 20 ]
+-f causes tail to not  stop at end of the file but rather to wait for additional data to be appended keeps printing and waits , it keeps listening and updating the output
+
+Date : print or set the system date and time( useful when writing the script)
+Redirecting standard output: eg [date] instead of printing the result it stores in a file make a file first  
+For that make any value eg : [date ], create folder : [touch store.txt], for redirecting : [ date> store.txt]  print using head command to make visible the contents
+If we use single > value added to the file is overwritten rather we use >> to append the value to existing value[ pwd>> sons.txt]
+Cat : concatenate similar to tail .  Except it can also add content to file, and this makes it super powerful
+You can also print multiple files [ cat file1 file2 ]
+Using the output redirection operator “ > ”  you can also concatenate the content of multiple file into a new file[ cat file1 file2> newfile ]
+Less : used to read the content of files and  give us a nice interactive UI .We can scroll it , better  than cat  [G-end , g- home , q- quit]  [ less today.txt]
+
+Echo -:Its prints the output whatever value we pass (not that useful )
+One trick is to use echo with a piece of text and then redirect the output to a file [ echo “hello” > output.txt] . If we again add any value it won't be overwritten but rather it will be appended to the same filename
+Wc : word count , it gives us useful information about a file or input it receives via pipe. It prints how many lines , words and byte count of each file . [wc -c hello.txt ]
+        - c, - - bytes : byte count
+        - m,--chars; character count
+        - l , --lines : newline count
+        -w : number of words
+                
+
+
+Piping : take the output of first command and pass the input of second command
+            Eg : [ls -l | wc -w ] in first command we get list and details of all folder this output 
+            is send to the second command as input and it prints the output 
+[  cat groceries.txt butcher.txt | wc -l ] concatenates the two text files and this output is sent to the second command later the lines are count and printed
+We can connect multiple command using piping [ls -l hello.txt | wc hello.txt>>hey.txt| less hey.txt]
+
+Sort : Suppose you have a text file which has some names of cats :
+[sort cat.txt] but it wont get saved if we need to save it ,  use redirecting operator and save it into another file or something
+     -f ,--ignore-case: it is case sensitive we use this option to ignore case sensitive sorting
+         -n, --numeric-sort : compare according to string numerical value
+        - r : reverse things
+        -un : for unique numbers
+        Piping : [cat butcher.txt dogs.txt |sort -r]
+
+
+Uniq : used in conjunction with sort command.Reports or omit repeated lines . It is useful to sort lines of text, you can get those lines from a file or using pipes from  the output of another command [uniq dogs. txt ], [ ls |uniq ] . 
+The sort -un and uniq does the same operation but unique many special options eg
+-d prints only the duplicate values
+-u prints the non duplicate lines
+-c count how many times the each  item and duplicates occur
+Piping: sort cats.txt | uniq -c | sort -nr
+
+ Expansions- there are special characters and special syntax that you can use with various commands that the shell will interpret ad expand into some other value 
+ Eg for path name expansion:  
+      -    echo ~ : expands to print /home/anisha
+echo $PATH : it expands the value of the $PATH variable
+echo $USER : it expands the value of $USER variable ( current username is printed [anisha])
+echo * : all folders are printed
+echo *.txt : expands the value and prints the .txt extension files in home
+ls -l * gives all the details and information of  files and how much files does each folders contains
+echo app.* : prints  all the filenames with “app” and ending in any extension 
+? - Another character used to match path  names, any single character in a row [echo *.??]: 
+file that must end with exactly any two character after the dot symbol
+Eg for curly brace expansion:
+echo {a,b,c}.txt: 3 text files a.txt, b.txt ,c.txt are shown
+echo app.{js,html,css,py} file such as app.js, app.html, app.css, app.py are shown
+touch app.{js,html,css,py} : files are created
+echo {1..999}: all the numbers from 1 to 999 are printed 
+echo day{1..10}: day1 day2 day3 day4….until day10 will be printed
+We can use patterns to match and do operations using any command 
+echo D*: prints all folder starting with D 
+
+diff : It is a  handy command . when we have two files which almost contains the same information and you need to find the difference between them  we use diff command [diff any.js any1,js]
+-y : will  compare line by line
+-u : 
+    
+find  : helps you find files or folders matching some file pattern. We can find files by a bunch of different criterias we can find it  based on the man page , based on file name , modification time ,file size, type, etc.
+    We need to provide location to search up the file :
+“. “ : to search inside current folder[ find  . ]
+To  find inside the desktop or any other folder we give criteria pattern[find . -name ’cat ’ ]
+[find . -name ‘*a*’ ] any files or folders which has the letter a on the name will be printed
+[find  .  -type d ] !!!!!!!!!
+[find . -iname ‘*a*’ and  ] insensitive with A and a will be shown
+[find . -name ‘E* ’ -or  ‘F*’]: or operator is used to print file that matches  the pattern E* or F*
+[find . type d -name ‘*.md’ -not -path ‘firefox’]!!!!!!!!g
+[find . type f -size +100c] : files that have more than 100 characters(bytes)in them
+[find . -type f -size +100k -size - 1M] find files bigger than 100KB and smaller than 1 mb
+[ find . type f -mtime +3] mtime modified time : searches files edited more than 3 days ago
+[ find . type f -mtime -1] searches files edited within 24 hours, 
+-ctime change time
+[find . -type f -exec ls -l t{} \ ; ] you can execute a command on each result of the search. 
+
+ Grep : it helps us find text  inside the file (find command wont go inside the file) [ grep green hello.txt ]
+We can also use grep to search in files , or combine it with pipes to filter the output of some other command
+-n line numbers are given in where the word green exists  [grep -n green hellotxt]
+-C : It can print 2 lines before and 2 lines after the matched line, to give us  more context.[ grep      -C 2 green hello.txt ]
+-r : it recursively searches not only inside  a particular file rather it searches inside all files and folder for the match [grep  -r ‘chicken“ . ] it is case sensitive  but we can use  -ri for case insensitive searches . Email , phone patterns can be made search using this 
+Regex pattern for email : [ grep -rE -o”\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\”~]
+Du : (actual size of the file system )disk usage it is  used to find the sizes of files and directories on the machine[ du] [du pictures]
+you can set du to display values in MegaBytes using [du -m ], and GigaBytes using [du -g] 
+-h --human--numeric--sort, : sorts in a human readable type instead of default sort[ du -h | sort -h]
+Df : (disk usage information )It  tell us the information about mounted file system how much space they have taken and how much space is left , allocated and used [ df -h]
+ History : gives the total history of command we used in the terminal 
+Also we can search the history through piping eg: [ history | less], [history | grep green] 
+
+Ps :  process status : display info about currently running processes. Computer runs at all times continuously , tons of different processes  occurs this helps to inspect them all
+-ax , -axww !!!!
+
+Top : display and update the sorted information about the processes  [ top ] q to quit
+ Kill :[kill <processID>] to kill programs but its lil complicated there different signals to send when we kill a program
+-l  : [kill -l]  it's not gonna kill anything instead it lists the different signals that we can send (its up to the program u currently run )
+We use -9 , -15 [kill -9 1123342]
+We use by process  id to kill a process
+ Killall : it is different from kill command, here we can provide the name of the process to kill instead of the id it will send the signal to multiple processes at once [kill <name>]
+Using top command we can kill the top program running it will terminate them all [kill top ]
+
+Jobs : these three work in conjunction, if we run a command which need a long time to process the output instead of quitting we can suspend it using ctrl+z . and if we have suspended many processes like this and we need to know which are  them we use [jobs] 
+Fg  : we use fg command to resume the suspended job to the foreground and then the  mentioned process will resume and start processing 
+Bg : it also does the same process as fg but in the background (&) used for bg[ bg <processno>]
+
+Eg :      
+-if we need to find the files which has been made changes within 4 days from the root directory [find / -ctime -4] this takes a while to print the output so we suspend that by [ ctrl +z] 
+- likewise if we suspend and we need the list of currently  suspended process [ jobs] in that each will be allotted a uniques ID 
+-[ fg 2 ] here we resume the 2nd process in the list to the foreground or [bg 2] to the background we can check it using jobs command 
+-  sleep : or we can use “ sleep ” can be specified how long should the process should go t  sleep[ sleep 2]    , but we cant do anything when it is sleep . for this we can use [ sleep 50 & ] to sleep in the background hence we can do other stuff in terminal  to bring back to fg just [ fg ]
+ Gzip : used to compress files it uses the algorithm gzip there are multiple different  algorithm to compress it very complicated are of study [ gzip filename ]. It can only zip  files individually  and multiple files are compressed individually and not altogether 
+-  when we just use this the original file is deleted and a new zip file of the same file is         created but the original will be lost to prevent this we have two option 
+1 ) gzip -c filename > filename.gz
+2)[ gzip -k filename ]( this is the better option )    
+-d : it is used the decompress the zip file to the original [ gzip -d filename.gz ]
+- v : used to get the verbose information about how much space is reduced or how much space is compressed [ gzip -kv yes.txt ]
+    
+ Tar : used to create an archive which is basically a grouping of bunch of files into a single file .It wont compress the file size instead it group multiple files into a single tar file 
+-c To create the archived tar file [ tar -cf archiveilename.tar file1 file2 file3  ] ( -f is used to provide the file name )
+-x  To extract the archives fiel we use  this option [ tar -xf archivedfilename.tar] or to unzip the tar file we can use this option itself [ tar -xf archived.tar.gz]
+-z We can also zip the archived tar file using this [tar -czf file1 file2 file2]
+ Nano :  it is a text editor you can run directly from your terminal beginner friendly . (similar vscode)
+^GHelp      ^O Write Out  ^W Where Is  ^K Cut       ^T Execute   ^C Location
+^X Exit      ^R Read File  ^\ Replace   ^U Paste     ^J Justify   ^/ Go To Line (CTRL ^) ^S save
+
+
+  Alias : allows us to find our own shortcut for a command [alias myls=” ls -la ”] and when we type the [myls ] we will get the output of [ls -la]  .Usually the alias commands won't last if we exit from the current terminal .
+To make it last all we have to do is go to the home directory and list the folder there you'll find the '.bashrc'  file so open it in the nano text editor. Then if you scroll down you'll find #some more aliases there u can add your own alias command then save. Come back to the terminal and run the command in a new terminal window  . if you want to run the command in the same window itself [source .bashrc] ,[ myalias]
+Difference of using double quotes and single quotes :  alias a=“ls $PWD ”  ,         alias b= ‘ ls $PWD ’  doesn't matter were are in system when ever we command a the value will be printed but b only shows the value when we are on the exact location where we runned our command for the first time
+  Xargs : it takes output from one command and turn it into arguments for the second command [ find -size +1M | xargs ls -lh ]
+ Ln : It is  used to create ‘ ln’ links not hyperlink from the browser . A  link in linux is kind of similar to the  shortcuts in desktop . We have various icons in the desktop. When we double click that icon it takes us to that particular link which references the actual program . a link is a file that  points to another  file . there two types 
+Hardlink  :
+    They are used rarely . When we create a hardlink we are creating basically a file that will stay in sync with another file. We are not duplicating the file but  points to the same file . The both files points to the memory [ ln original.txt hardlink.txt ] hardlink.txt  is not a file but a link to the original file  which points to the( inode )memory [ cat original.txt][cat hardlink.txt] same output 
+
+Softlink : to make softlink we use -s 
+ who : it display who all logged in to the system
+ Su : switch user. If we switch the user it  only works in the current terminal tab not on all each users  permissions are different
+su -  newuser : changes to the home directory as a normal login and to logout : exit/  ^d 
+        
+sudo  : super user do , it is used to run  command as  the root user with elevated permissions, create new users , change passwords, new folder,  remove folder etc  
+[cd ~][cd .. ][cd..] we will reach in root directory if we open the file /etc/hosts in the root directory  we wont be able to open hence we don't have the permission to open or edit the file
+But when we do it a super user do we will be given the permission to view and edit the files on root directory   [ sudo nano /etc /hosts] we have to enter the password of particular user
+To install we we use sudo : [ sudo apt install tldr]: the tldr is installed 
+        
+ Passwd: this is used to change someone's password . to change ours [passwd].
+-e  : this immediately expires the password for another user[ passwd -e elvis]re. It forces the user to change the password in the next login itself .
+Or else as the root we can change another user's password by using the super user do command [sudo passwd elvis ]
+chown  : change ownership. Each user in the system owns different each different files root own some , anisha owns some [ chown <owner>  filename] but we need sudo command to be used along
+ -R recursively changes inside the nested folders too [ sudo chown  -R <owner> filename]
+Files/ directories don't just have an owner , they also have a group[Groups] . you can change that simultaneously while you change the owner [chown <owner>: <group><file>] we could have 10 different  users part of this group and they might be able to read this directory only . but the owner can read ,write and execute everything we selectively add users to this group 
+ Understanding permission : [ls -l] :: we get the output or detailed information of the lists of file 
+Drwxrwxr : d in this mean it is a directory,
+-rw-rw-r--. : - mean it is a regular file 
+lrwxrw-r--  : - symbolic link
+c  : means character special file
+Theses has 10 characters first character say the type and the rest 9 tells us about the permissions 
+First 3 rwx / - - - : describes the permission of the  owner to the file/directories
+Second 3 rwx / - - - : describes the permission of the  group owners or the members in the group(seacrh on bin fro x files)
+Third 3 rwx / - - - : describes the permission of the  world
+Ncal for calender
+ Chmod : change mod.  we can change alter  the permissions.  we  two main ways of specifying tehnpermissions :
+[chmod mode file] eg: [chmod g+w file.txt], [chmod a-w file.txt]
+firstly specify “who” using following values:
+u  : user 
+g  :  group
+o : others 
+a : all the above
+
+
+Secondly we tell “what” are we doing using the following character
+- removes the permission
++ grants permission
+= Set permission and removes others
+Finally , the “which” values are ; 
+r : read
+w : write
+X : execute
+
+
+chmod  octals base 8 [chmod octabase filename] : each digit in an octal number represents3 binary digits
+0    000    - - -
+1    001    - -x
+2    010    -w-
+3    011    - wx
+4    100    r- -
+5    101    r-x
+6    110    rw-
+7    111    rwx
+        000-111 rwx group  
+        000-111 rwx group
+        000-111 rwx world
+            Eg : [ chmod 755 fiel.txt ] 7: 111 rwx , 5-: r-x 101 trh output will be : rwxr-xr-x
+
+
+ 
+ 
+ 
+ 
+
+
+
